@@ -8,4 +8,5 @@ class Operation {
         int *elements;
         int opBoatSize;
         Operation();
+        Operation(int *drivers, int *elements, int opBoatSize);
 };

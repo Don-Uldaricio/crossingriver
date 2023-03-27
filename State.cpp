@@ -1,24 +1,28 @@
 #include "State.h"
 
 State::State(int nElem) {
+    this->distance = 0;
     this->nElem = nElem;
     this->left = (int*) malloc(sizeof(int)*nElem);
     this->right = (int*) malloc(sizeof(int)*nElem);
     for (int i = 0; i < nElem; i++) {
         left[i] = 1; // todos a la izquierda
         right[i] = 0; // nada a la derecha
+        this->distance = this->distance + left[i];
     }
     this->boatSide = 0;
     this->previous = nullptr;
 }
 
 State::State(int nElem, int *left, int *right, State* previous) {
+    this->distance = 0;
     this->nElem = nElem;
     this->left = (int*) malloc(sizeof(int)*nElem);
     this->right = (int*) malloc(sizeof(int)*nElem);
     for (int i = 0; i < nElem; i++) {
         this->left[i] = left[i];
         this->right[i] = right[i];
+        this->distance = this->distance + left[i];
     }
     this->boatSide = 0;
     this->previous = previous;
@@ -28,12 +32,12 @@ State::~State() {
     // no se necesita
 }
 
-void State::setValue(int value) {
-    this->value = value;
+void State::setDistance(int distance) {
+    this->distance = distance;
 }
 
-int State::getValue() {
-    return this->value;
+int State::getDistance() {
+    return this->distance;
 }
 
 void State::print() {
