@@ -1,0 +1,17 @@
+- GENERAR UN ARREGLO DE OPERACIONES PARA OPERAR CON ELLAS MEDIANTE UN ÍNDICE.
+
+- La parte de los if del LCR habría que cambiarla por una versión genérica, es decir, crear una de forma dinámica.
+
+- Modificar la clase estado, ya que no incluye la cantidad de conductores.
+
+- Las operaciones se definen en términos de la capacidad del bote. Por ejemplo: si b=2, tiene que ir un Conductor y un elemento.
+
+- Las operaciones posibles son todos los arreglos de tamaño=b con un conductor más b-1 items.
+
+- El arreglo de operaciones PODRÍA ser un arreglo de índices con todas los movimientos posibles. EJ: si b=2, c={1}, e={l,c,r} entonces el arreglo de operaciones sería: [(1,l), (1,c), (1,r)]
+
+- Para la Clase STATE se puede crear un atributo que indique en qué lado del río se encuentro el bote
+
+- En base a la cantidad de elementos N que existen, generar todas las combinaciones de movimientos posibles como una matriz similar a la matriz de restricciones pero en este caso una matriz de Operaciones, eliminando aquellas que no incluyan a ningún conductor.
+
+- Se podría crear todas las combinaciones de movimientos posibles para los elementos y luego incluir aquellas de los conductores
