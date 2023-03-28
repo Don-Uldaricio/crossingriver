@@ -71,3 +71,12 @@ void State::printPath() {
         actual->print();
     }
 }
+
+int State::getDecimal() {
+    int decimal = 0;
+    for (int i = 0; i < this->nElem; i++) {
+        decimal += left[i] * pow(2, this->nElem - 1 - i);
+    }
+    this->decimal = decimal;
+    return this->decimal;
+}

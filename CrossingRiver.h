@@ -1,17 +1,18 @@
 #include <iostream>
 #include "Heap.h"
 #include "Operation.h"
+#include "Load.h"
 
 using namespace std;
 
 class CrossingRiver {
-    private:
+    public:
         Heap *open;
         Heap *closed;
         Heap *operations;
-    public:
-        CrossingRiver();
+        CrossingRiver(Load *file);
         void solve();
-        State move(Operation *op);
-        bool canMove();
+        State *addState(State *s);
+        State *move(Operation *op);
+        bool canMove(State *s);
 };
