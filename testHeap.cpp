@@ -18,11 +18,12 @@ int main() {
     State *s1 = new State(nElem, left, right, s);
     s1->setDistance(3);
 
-    s1->printPath();   
+    //s1->printPath();   
 
     hp->push(s);
     hp->push(s1);
-    hp->data[1]->print();
+    cout << hp->pop()->getDistance() << endl;
+    cout << hp->pop()->getDistance() << endl;
     
     //delete s;
     return 0;
