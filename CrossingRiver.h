@@ -9,10 +9,12 @@ class CrossingRiver {
     public:
         Heap *open;
         Heap *closed;
-        Heap *operations;
+        Operation **operations;
         CrossingRiver(Load *file);
         void solve();
-        State *addState(State *s);
+        void addOpen(State *s);
+        void addClosed(State *s);
+        State *deleteOpen();
         State *move(Operation *op);
-        bool canMove(State *s);
+        bool canVisite(State *s, Operation *op);
 };

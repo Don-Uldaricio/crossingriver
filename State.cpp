@@ -2,6 +2,7 @@
 
 State::State(int nElem) {
     this->distance = 0;
+    this->decimal = 0;
     this->nElem = nElem;
     this->left = (int*) malloc(sizeof(int)*nElem);
     this->right = (int*) malloc(sizeof(int)*nElem);
@@ -9,6 +10,7 @@ State::State(int nElem) {
         left[i] = 1; // todos a la izquierda
         right[i] = 0; // nada a la derecha
         this->distance = this->distance + left[i];
+        this->decimal += left[i] * pow(2, this->nElem - 1 - i);
     }
     this->boatSide = 0;
     this->previous = nullptr;
@@ -16,6 +18,7 @@ State::State(int nElem) {
 
 State::State(int nElem, int *left, int *right, State* previous) {
     this->distance = 0;
+    this->decimal = 0;
     this->nElem = nElem;
     this->left = (int*) malloc(sizeof(int)*nElem);
     this->right = (int*) malloc(sizeof(int)*nElem);
@@ -23,6 +26,7 @@ State::State(int nElem, int *left, int *right, State* previous) {
         this->left[i] = left[i];
         this->right[i] = right[i];
         this->distance = this->distance + left[i];
+        decimal += left[i] * pow(2, this->nElem - 1 - i);
     }
     this->boatSide = 0;
     this->previous = previous;
@@ -38,6 +42,10 @@ void State::setDistance(int distance) {
 
 int State::getDistance() {
     return this->distance;
+}
+
+int State::getDecimal() {
+    return this->decimal;
 }
 
 void State::print() {
@@ -70,13 +78,4 @@ void State::printPath() {
         actual = actual->previous;
         actual->print();
     }
-}
-
-int State::getDecimal() {
-    int decimal = 0;
-    for (int i = 0; i < this->nElem; i++) {
-        decimal += left[i] * pow(2, this->nElem - 1 - i);
-    }
-    this->decimal = decimal;
-    return this->decimal;
 }

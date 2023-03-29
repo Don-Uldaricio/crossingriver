@@ -4,11 +4,10 @@ using namespace std;
 
 class Operation {
     public:
-        int *movement;
-        int *drivers;
-        int *elements;
-        int boatMov; // 0: to left, 1: to right
+        int *movement; // Arreglo donde cada índice
+        int nDrivers;
+        int nElements;
         int opBoatSize;
         Operation();
-        Operation(int *drivers, int *elements, int opBoatSize);
+        Operation(int *movement);
 };
