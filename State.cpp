@@ -57,12 +57,10 @@ int State::getDecimalRight() {
 }
 
 void State::print() {
-    cout << "Izquierda: ";
     for (int i = 0; i < this->nElem; i++) {
         cout << this->left[i] << " ";
     }
-    cout << endl;
-    cout << "Derecha: ";
+    cout << " | " ;
     for (int i = 0; i < this->nElem; i++) {
         cout << right[i] << " ";
     }

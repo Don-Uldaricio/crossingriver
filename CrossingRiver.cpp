@@ -27,28 +27,58 @@ CrossingRiver::CrossingRiver() {
     }
 }
 
-void CrossingRiver::solve() {
+bool CrossingRiver::solve() {
     int *arr = new int[this->nTotal];
     State *actualState;
     generateOperations(arr, this->nTotal, 0);
+    for (int i = 0; i < this->nOperations; i++) {
+        for (int j = 0; j < this->nTotal; j++) {
+            cout << this->operations[i]->movement[j] << " " ;
+        }
+        cout << endl;
+    }
 
     open->push(new State(this->nTotal));
     while (open->size != 0) {
+        cout << "CONJUNTO ABIERTO: " << endl;
+        for (int i = 0; i < this->open->size; i++) {
+            this->open->data[i]->print();
+        }
         actualState = this->open->pop();
+        //cout << "nodo actual: " ;
+        //actualState->print();
+        this->closed->push(actualState);
+        //actualState->print();
         if (actualState->isFinal()) {
             cout << "Solución Encontrada!!!!!" << endl;
+            actualState->printPath();
+            return true;
         }
         else {
             for (int i = 0; i < this->nOperations; i++) {
-                if (canMoveToLeft(actualState, this->operations[i])) {
-                    moveToLeft(actualState, this->operations[i]);
-                }
                 if (canMoveToRight(actualState, this->operations[i])) {
-                    moveToRight(actualState, this->operations[i]);
+                    //cout << "op" << int(i) << "verificando derecha?" << endl;
+                    State *sRight = moveToRight(actualState, this->operations[i]);
+                    if (sRight != nullptr) {
+                        cout << "nuevo estado: " ;
+                        sRight->print();
+                        this->open->push(sRight);
+                    }
+                }
+                if (canMoveToLeft(actualState, this->operations[i])) {
+                    //cout << "op"<<int(i)<<"verificando izquierda?" << endl;
+                    State *sLeft = moveToLeft(actualState, this->operations[i]);
+                    if (sLeft != nullptr) {
+                        cout << "nuevo estado: " ;
+                        sLeft->print();
+                        this->open->push(sLeft);
+                    }
                 }
             }
         }
     }
+    cout << "Solución NO ENCONTRADA" << endl;
+    return false;
 }
 
 void CrossingRiver::generateOperations(int *arr, int size, int index) {
@@ -92,43 +122,49 @@ bool CrossingRiver::canMoveToRight(State *s, Operation *op) {
     return true;
 }
 
-void CrossingRiver::moveToLeft(State *s, Operation *op) {
+State *CrossingRiver::moveToLeft(State *s, Operation *op) {
     int *auxLeft = new int[this->nTotal];
     int *auxRight = new int[this->nTotal];
     State *auxState;
     for (int i = 0; i < this->nTotal; i++) {
-        if (s->right[i] == 1) {
+        if (s->right[i] == 1 && op->movement[i] == 1) {
             auxLeft[i] = 1;
             auxRight[i] = 0;
         }
         else {
-            auxLeft[i] = 0;
-            auxRight[i] = 1;
+            auxLeft[i] = s->left[i];
+            auxRight[i] = s->right[i];
         }
     }
     auxState = new State(this->nTotal, auxLeft, auxRight, s);
-    if (!isClosed(auxState) && checkRestriction(auxState)) {
-        this->open->push(auxState);
+    if ((!isClosed(auxState)) && checkRestriction(auxState)) {
+        return auxState;
+    }
+    else {
+        return nullptr;
     }
 }
 
-void CrossingRiver::moveToRight(State *s, Operation *op) {
+State *CrossingRiver::moveToRight(State *s, Operation *op) {
     int *auxLeft = new int[this->nTotal];
     int *auxRight = new int[this->nTotal];
     State *auxState;
     for (int i = 0; i < this->nTotal; i++) {
-        if (s->left[i] == 1) {
+        if (s->left[i] == 1 && op->movement[i] == 1) {
             auxLeft[i] = 0;
             auxRight[i] = 1;
         }
         else {
-            auxLeft[i] = 1;
-            auxRight[i] = 0;
+            auxLeft[i] = s->left[i];
+            auxRight[i] = s->right[i];
         }
     }
     auxState = new State(this->nTotal, auxLeft, auxRight, s);
-    if (!isClosed(auxState) && checkRestriction(auxState)) {
-        this->open->push(auxState);
+    if ((!isClosed(auxState)) && checkRestriction(auxState)) {
+        return auxState;
+    }
+    else {
+        return nullptr;
     }
 }
 

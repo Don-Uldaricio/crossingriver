@@ -22,13 +22,13 @@ class CrossingRiver {
         int *rightRestrictionsId; // Binary Array into decimal number
 
         CrossingRiver();
-        void solve();
+        bool solve();
         void addOpen(State *s);
         void addClosed(State *s);
         void generateOperations(int *arr, int nElem, int index);
         State *deleteOpen();
-        void moveToLeft(State *s, Operation *op);
-        void moveToRight(State *s, Operation *op);
+        State *moveToLeft(State *s, Operation *op);
+        State *moveToRight(State *s, Operation *op);
         bool isClosed(State *s);
         bool canMoveToLeft(State *s, Operation *op);
         bool canMoveToRight(State *s, Operation *op);

@@ -11,21 +11,7 @@ int main() {
     cout << "tamaño bote: " << cr->boatSize << endl;
     cout << "n operaciones: " << cr->nOperations << endl;
 
-    cr->solve();
-    cout << "n operaciones: " << cr->nOperations << endl;
-    cout << endl << "Operaciones: " << endl;
-    for (int i = 0; i < cr->nOperations; i++) {
-        for (int j = 0; j < cr->nTotal; j++) {
-            cout << cr->operations[i]->movement[j] << " ";
-        }
-        cout << endl;
-    }
-
-    for (int i = 0; i < cr->nLeftRestrictions; i++) {
-        cout << cr->leftRestrictionsId[i] << " ";
-    }
     
-    for (int i = 0; i < cr->nRightRestrictions; i++) {
-        cout << cr->rightRestrictionsId[i] << " ";
-    }
+
+    cr->solve();
 }
