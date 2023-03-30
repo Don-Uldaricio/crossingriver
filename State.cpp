@@ -2,7 +2,8 @@
 
 State::State(int nElem) {
     this->distance = 0;
-    this->decimal = 0;
+    this->decimalLeft = 0;
+    this->decimalRight = 0;
     this->nElem = nElem;
     this->left = (int*) malloc(sizeof(int)*nElem);
     this->right = (int*) malloc(sizeof(int)*nElem);
@@ -10,7 +11,8 @@ State::State(int nElem) {
         left[i] = 1; // todos a la izquierda
         right[i] = 0; // nada a la derecha
         this->distance = this->distance + left[i];
-        this->decimal += left[i] * pow(2, this->nElem - 1 - i);
+        this->decimalLeft += left[i] * pow(2, this->nElem - 1 - i);
+        this->decimalRight += right[i] * pow(2, this->nElem - 1 - i);
     }
     this->boatSide = 0;
     this->previous = nullptr;
@@ -18,7 +20,8 @@ State::State(int nElem) {
 
 State::State(int nElem, int *left, int *right, State* previous) {
     this->distance = 0;
-    this->decimal = 0;
+    this->decimalLeft = 0;
+    this->decimalRight = 0;
     this->nElem = nElem;
     this->left = (int*) malloc(sizeof(int)*nElem);
     this->right = (int*) malloc(sizeof(int)*nElem);
@@ -26,7 +29,8 @@ State::State(int nElem, int *left, int *right, State* previous) {
         this->left[i] = left[i];
         this->right[i] = right[i];
         this->distance = this->distance + left[i];
-        decimal += left[i] * pow(2, this->nElem - 1 - i);
+        decimalLeft += left[i] * pow(2, this->nElem - 1 - i);
+        decimalRight += right[i] * pow(2, this->nElem - 1 - i);
     }
     this->boatSide = 0;
     this->previous = previous;
@@ -44,8 +48,12 @@ int State::getDistance() {
     return this->distance;
 }
 
-int State::getDecimal() {
-    return this->decimal;
+int State::getDecimalLeft() {
+    return this->decimalLeft;
+}
+
+int State::getDecimalRight() {
+    return this->decimalRight;
 }
 
 void State::print() {

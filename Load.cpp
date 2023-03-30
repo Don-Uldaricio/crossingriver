@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <cmath>
 #include "Load.h"
 
 using namespace std;
@@ -41,12 +42,9 @@ Load::Load(const char *fileName) {
     getline(*input, line);
     leftRestNum=atoi(line.c_str()) ; // c_str convierte el string a un arreglo de caracteres
     this->leftRestNum = leftRestNum;
-    this->leftRest = new int*[leftRestNum]; // crear la matriz de restricciones
+    this->leftRest = new int[leftRestNum]; // crear el arreglo de restricciones
     for (int i = 0; i < leftRestNum; i++) {
-        leftRest[i] = new int[N];
-        for (int j = 0; j < N; j++) {
-            leftRest[i][j] = 0;
-        }
+        leftRest[i] = 0;
     }
 
     // leer las restricciones del lado izquierdo
@@ -54,10 +52,9 @@ Load::Load(const char *fileName) {
         getline(*input, line);
         ss.clear(); // NO OLVIDAR ESTO: limpiar el stream de caracteres, porque ya viene con cosas
         ss << line; // llenar el stream con linea
-        while (!ss.eof()) { // mientras no termine esta linea
-            int a;
-            ss >> a;
-            leftRest[i][a-1] = 1; // a-1 porque los indices empiezan en 0
+        int a;
+        while (ss >> a) { // mientras no termine esta linea
+            leftRest[i] += pow(2, N - a);
         }
     }
     
@@ -68,22 +65,18 @@ Load::Load(const char *fileName) {
     ss << line; // copiar la linea al stream
     ss >> rightRestNum;
     this->rightRestNum = rightRestNum;
-    this->rightRest = new int*[rightRestNum]; // crear la matriz de restricciones
+    this->rightRest = new int[rightRestNum]; // crear la matriz de restricciones
     for (int i = 0; i < rightRestNum; i++) {
-        rightRest[i] = new int[N];
-        for (int j = 0; j < N; j++) { // inicialmente en 0
-            rightRest[i][j] = 0;
-        }
+        rightRest[i] = 0;
     }
 
     for (int i = 0; i < rightRestNum; i++) {
         getline(*input, line);
         ss.clear(); // limpiar el stream de caracteres
         ss << line; // copiar la linea al stream
-        while (!ss.eof()) { // mientras no termine esta linea
-            int a;
-            ss >> a;
-            rightRest[i][a-1] = 1; // recuerden que los elementos de los archivos empiezan en 1, pero los indices en 0
+        int a;
+        while (ss >> a) { // mientras no termine esta linea
+            rightRest[i] += pow(2, N - a);
         }
     }
 
@@ -107,36 +100,15 @@ int Load::getBoatSize() {
     return this->boatSize;
 }
 
-int Load::getLeftRestNum() {
-    return this->leftRestNum;
-}
-
-int Load::getRightRestNum() {
-    return this->rightRestNum;
-}
-
-int **Load::getLeftRest() {
-    return this->leftRest;
-}
-
-int **Load::getRightRest() {
-    return this->rightRest;
-}
-
-void Load::printMatrix() {
+void Load::printRest() {
     cout<<"restriccionesIzq:"<<endl;
-    for(int i=0;i<this->leftRestNum;i++){
-        for(int j=0;j<this->totalNum;j++){
-            cout<<this->leftRest[i][j]<<" ";
-        }
-        cout<<endl;
+    for(int i = 0; i < this->leftRestNum; i++) {
+        cout << leftRest[i] << " ";
     }
+    cout << endl;
 
     cout<<"restriccionesDer:"<<endl;
-    for(int i=0;i<this->leftRestNum;i++){
-        for(int j=0;j<this->totalNum;j++){
-            cout<<this->rightRest[i][j]<<" ";
-        }
-        cout<<endl;
+    for(int i=0;i<this->rightRestNum;i++){
+        cout << rightRest[i] << " ";
     }
 }

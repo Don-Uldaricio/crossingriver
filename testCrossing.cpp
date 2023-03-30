@@ -20,4 +20,12 @@ int main() {
         }
         cout << endl;
     }
+
+    for (int i = 0; i < cr->nLeftRestrictions; i++) {
+        cout << cr->leftRestrictionsId[i] << " ";
+    }
+    
+    for (int i = 0; i < cr->nRightRestrictions; i++) {
+        cout << cr->rightRestrictionsId[i] << " ";
+    }
 }

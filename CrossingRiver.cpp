@@ -11,11 +11,22 @@ CrossingRiver::CrossingRiver() {
     this->nTotal = p->getTotal();
     this->boatSize = p->getBoatSize();
     this->nOperations = 0;
+    this->nLeftRestrictions = p->leftRestNum;
+    this->nRightRestrictions = p->rightRestNum;
+    this->leftRestrictionsId = new int[this->nLeftRestrictions];
+    this->rightRestrictionsId = new int[this->nRightRestrictions];
+
+    for (int i = 0; i < this->nLeftRestrictions; i++) {
+        this->leftRestrictionsId[i] = p->leftRest[i];
+    }
+
+    for (int i = 0; i < this->nRightRestrictions; i++) {
+        this->rightRestrictionsId[i] = p->rightRest[i];
+    }
 }
 
 void CrossingRiver::solve() {
     int *arr = new int[this->nTotal];
-    int count = 0;
     generateOperations(arr, this->nTotal, 0);
 
 }

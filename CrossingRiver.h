@@ -16,6 +16,10 @@ class CrossingRiver {
         int nTotal;
         int boatSize;
         int nOperations;
+        int nLeftRestrictions;
+        int nRightRestrictions;
+        int *leftRestrictionsId; // Binary Array into decimal number
+        int *rightRestrictionsId; // Binary Array into decimal number
 
         CrossingRiver();
         void solve();

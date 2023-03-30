@@ -13,4 +13,6 @@ int main() {
     cout << "Cantidad elementos: " << archivo->getElements() << endl;
     cout << "Tamaño bote: " << archivo->getBoatSize() << endl;
     cout << "Cantidad total: " << archivo->getTotal() << endl;
+
+    archivo->printRest();
 }
