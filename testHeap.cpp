@@ -18,9 +18,10 @@ int main() {
     s1->setDistance(3);
 
     //s1->printPath();   
-
+    cout << "tamaño heap: " << hp->size << endl;
     hp->push(s);
     hp->push(s1);
+    cout << "tamaño heap: " << hp->size << endl;
     cout << hp->pop()->getDistance() << endl;
     cout << hp->pop()->getDistance() << endl;
     

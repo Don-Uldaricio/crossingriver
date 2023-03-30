@@ -27,7 +27,12 @@ class CrossingRiver {
         void addClosed(State *s);
         void generateOperations(int *arr, int nElem, int index);
         State *deleteOpen();
-        State *move(Operation *op);
+        void moveToLeft(State *s, Operation *op);
+        void moveToRight(State *s, Operation *op);
+        bool isClosed(State *s);
+        bool canMoveToLeft(State *s, Operation *op);
+        bool canMoveToRight(State *s, Operation *op);
+        bool checkRestriction(State *s);
         bool canVisite(State *s, Operation *op);
         bool validOp(int *arr);
 };

@@ -5,6 +5,8 @@
 using namespace std;
 
 CrossingRiver::CrossingRiver() {
+    this->open = new Heap(2);
+    this->closed = new Heap(2);
     Load *p = new Load("sistema.txt");
     this->nDrivers = p->getDrivers();
     this->nElem = p->getElements();
@@ -27,8 +29,26 @@ CrossingRiver::CrossingRiver() {
 
 void CrossingRiver::solve() {
     int *arr = new int[this->nTotal];
+    State *actualState;
     generateOperations(arr, this->nTotal, 0);
 
+    open->push(new State(this->nTotal));
+    while (open->size != 0) {
+        actualState = this->open->pop();
+        if (actualState->isFinal()) {
+            cout << "Solución Encontrada!!!!!" << endl;
+        }
+        else {
+            for (int i = 0; i < this->nOperations; i++) {
+                if (canMoveToLeft(actualState, this->operations[i])) {
+                    moveToLeft(actualState, this->operations[i]);
+                }
+                if (canMoveToRight(actualState, this->operations[i])) {
+                    moveToRight(actualState, this->operations[i]);
+                }
+            }
+        }
+    }
 }
 
 void CrossingRiver::generateOperations(int *arr, int size, int index) {
@@ -43,6 +63,89 @@ void CrossingRiver::generateOperations(int *arr, int size, int index) {
     generateOperations(arr, size, index+1);
     arr[index] = 1;
     generateOperations(arr, size, index+1);
+}
+
+bool CrossingRiver::isClosed(State *s) {
+    for (int i = 0; i < this->closed->size; i++) {
+        if (s->decimalLeft == this->closed->data[i]->decimalLeft) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool CrossingRiver::canMoveToLeft(State *s, Operation *op) {
+    for (int i = 0; i < this->nTotal; i++) {
+        if (op->movement[i] == 1 && s->right[i] == 0) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool CrossingRiver::canMoveToRight(State *s, Operation *op) {
+    for (int i = 0; i < this->nTotal; i++) {
+        if (op->movement[i] == 1 && s->left[i] == 0) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void CrossingRiver::moveToLeft(State *s, Operation *op) {
+    int *auxLeft = new int[this->nTotal];
+    int *auxRight = new int[this->nTotal];
+    State *auxState;
+    for (int i = 0; i < this->nTotal; i++) {
+        if (s->right[i] == 1) {
+            auxLeft[i] = 1;
+            auxRight[i] = 0;
+        }
+        else {
+            auxLeft[i] = 0;
+            auxRight[i] = 1;
+        }
+    }
+    auxState = new State(this->nTotal, auxLeft, auxRight, s);
+    if (!isClosed(auxState) && checkRestriction(auxState)) {
+        this->open->push(auxState);
+    }
+}
+
+void CrossingRiver::moveToRight(State *s, Operation *op) {
+    int *auxLeft = new int[this->nTotal];
+    int *auxRight = new int[this->nTotal];
+    State *auxState;
+    for (int i = 0; i < this->nTotal; i++) {
+        if (s->left[i] == 1) {
+            auxLeft[i] = 0;
+            auxRight[i] = 1;
+        }
+        else {
+            auxLeft[i] = 1;
+            auxRight[i] = 0;
+        }
+    }
+    auxState = new State(this->nTotal, auxLeft, auxRight, s);
+    if (!isClosed(auxState) && checkRestriction(auxState)) {
+        this->open->push(auxState);
+    }
+}
+
+bool CrossingRiver::checkRestriction(State *s) {
+    for (int i = 0; i < this->nLeftRestrictions; i++) {
+        if (s->decimalLeft == this->leftRestrictionsId[i]) {
+            return false;
+        }
+    }
+    
+    for (int i = 0; i < this->nRightRestrictions; i++) {
+        if (s->decimalRight == this->rightRestrictionsId[i]) {
+            return false;
+        }
+    }
+    
+    return true;
 }
 
 bool CrossingRiver::validOp(int *arr) {

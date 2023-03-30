@@ -28,7 +28,7 @@ State::State(int nElem, int *left, int *right, State* previous) {
     for (int i = 0; i < nElem; i++) {
         this->left[i] = left[i];
         this->right[i] = right[i];
-        this->distance = this->distance + left[i];
+        this->distance += left[i];
         decimalLeft += left[i] * pow(2, this->nElem - 1 - i);
         decimalRight += right[i] * pow(2, this->nElem - 1 - i);
     }
