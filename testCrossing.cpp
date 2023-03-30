@@ -15,7 +15,7 @@ int main() {
     cout << "n operaciones: " << cr->nOperations << endl;
     for (int i = 0; i < cr->nOperations; i++) {
         for (int j = 0; j < cr->nTotal; j++) {
-            cout << cr->operations[i]->movement[j] << " ";
+            cout << cr->ops[i][j] << " ";
         }
         cout << endl;
     }

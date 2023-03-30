@@ -11,32 +11,31 @@ CrossingRiver::CrossingRiver() {
     this->nTotal = p->getTotal();
     this->boatSize = p->getBoatSize();
     this->nOperations = 0;
+    for (int i = 0; i < 1000; i++) {
+        this->ops[i] = new int[4];
+    }
 }
 
 void CrossingRiver::solve() {
-    int arr[this->nTotal];
+    int *arr = new int[this->nTotal];
     int count = 0;
-    generateCombinations(arr, this->nTotal, 0, count);
+    generateCombinations(arr, this->nTotal, 0);
 }
 
-void CrossingRiver::generateCombinations(int arr[], int size, int index, int& count) {
+void CrossingRiver::generateCombinations(int *arr, int size, int index) {
     if (index == size) {
-        for (int i = 0; i < size; i++) {
-                cout << arr[i] << " ";
-            }
-            cout << endl;
         if (validOp(arr)) {
-            operations[nOperations] = new Operation(arr);
+            for (int i = 0; i < size; i++) {
+                this->ops[this->nOperations][i] = arr[i];
+            }
             this->nOperations++;
-            cout << "n ops:" << this->nOperations << endl;
         }
-        count++;
         return;
     }
     arr[index] = 0;
-    generateCombinations(arr, size, index+1, count);
+    generateCombinations(arr, size, index+1);
     arr[index] = 1;
-    generateCombinations(arr, size, index+1, count);
+    generateCombinations(arr, size, index+1);
 }
 
 bool CrossingRiver::validOp(int *arr) {
