@@ -10,8 +10,7 @@ class CrossingRiver {
     public:
         Heap *open;
         Heap *closed;
-        int *ops[1000];
-        Operation **operations;
+        Operation *operations[1000];
         int nElem;
         int nDrivers;
         int nTotal;
@@ -22,7 +21,7 @@ class CrossingRiver {
         void solve();
         void addOpen(State *s);
         void addClosed(State *s);
-        void generateCombinations(int *arr, int nElem, int index);
+        void generateOperations(int *arr, int nElem, int index);
         State *deleteOpen();
         State *move(Operation *op);
         bool canVisite(State *s, Operation *op);

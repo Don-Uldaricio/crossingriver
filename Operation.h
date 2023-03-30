@@ -7,5 +7,5 @@ class Operation {
         int *movement; // Arreglo donde cada índice
         int nTotal;
         Operation();
-        Operation(int *m);
+        Operation(int *m, int size);
 };

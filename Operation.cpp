@@ -7,9 +7,9 @@ Operation::Operation() {
 
 }
 
-Operation::Operation(int *m) {
-    int lengthArray = sizeof(movement)/sizeof(movement[0]);
-    for (int i = 0; i < lengthArray; i++) {
+Operation::Operation(int *m, int size) {
+    this->movement = new int[size];
+    for (int i = 0; i < size; i++) {
         this->movement[i] = m[i];
     }
 }

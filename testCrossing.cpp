@@ -13,9 +13,10 @@ int main() {
 
     cr->solve();
     cout << "n operaciones: " << cr->nOperations << endl;
+    cout << endl << "Operaciones: " << endl;
     for (int i = 0; i < cr->nOperations; i++) {
         for (int j = 0; j < cr->nTotal; j++) {
-            cout << cr->ops[i][j] << " ";
+            cout << cr->operations[i]->movement[j] << " ";
         }
         cout << endl;
     }
