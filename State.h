@@ -24,4 +24,5 @@ class State {
         void printPath(); // imprime el camino desde el estado inicial hasta el final
         int getDecimalLeft();
         int getDecimalRight();
+        int getSteps();
 };

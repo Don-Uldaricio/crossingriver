@@ -31,27 +31,13 @@ bool CrossingRiver::solve() {
     int *arr = new int[this->nTotal];
     State *actualState;
     generateOperations(arr, this->nTotal, 0);
-    for (int i = 0; i < this->nOperations; i++) {
-        for (int j = 0; j < this->nTotal; j++) {
-            cout << this->operations[i]->movement[j] << " " ;
-        }
-        cout << endl;
-    }
-
     open->push(new State(this->nTotal));
     while (open->size != 0) {
-        cout << "CONJUNTO ABIERTO: " << endl;
-        for (int i = 0; i < this->open->size; i++) {
-            this->open->data[i]->print();
-        }
         actualState = this->open->pop();
-        //cout << "nodo actual: " ;
-        //actualState->print();
         this->closed->push(actualState);
-        //actualState->print();
         if (actualState->isFinal()) {
-            cout << "Solución Encontrada!!!!!" << endl;
-            actualState->printPath();
+            cout << "SOLUCIÓN ENCONTRADA!!" << endl;
+            printSolutionPath(actualState);
             return true;
         }
         else {
@@ -60,8 +46,6 @@ bool CrossingRiver::solve() {
                     //cout << "op" << int(i) << "verificando derecha?" << endl;
                     State *sRight = moveToRight(actualState, this->operations[i]);
                     if (sRight != nullptr) {
-                        cout << "nuevo estado: " ;
-                        sRight->print();
                         this->open->push(sRight);
                     }
                 }
@@ -69,15 +53,13 @@ bool CrossingRiver::solve() {
                     //cout << "op"<<int(i)<<"verificando izquierda?" << endl;
                     State *sLeft = moveToLeft(actualState, this->operations[i]);
                     if (sLeft != nullptr) {
-                        cout << "nuevo estado: " ;
-                        sLeft->print();
                         this->open->push(sLeft);
                     }
                 }
             }
         }
     }
-    cout << "Solución NO ENCONTRADA" << endl;
+    cout << "Solución NO ENCONTRADA." << endl;
     return false;
 }
 
@@ -205,4 +187,18 @@ bool CrossingRiver::validOp(int *arr) {
         return true;
     }
     return false;
+}
+
+void CrossingRiver::printSolutionPath(State *s) {
+    int nSteps = s->getSteps();
+    cout << "N° PASOS: " << nSteps - 1 << endl;
+    State *aux = s;
+    State *steps[nSteps];
+    for (int i = 0; i < nSteps; i++) {
+        steps[nSteps - i - 1] = aux;
+        aux = aux->previous;
+    }
+    for (int j = 0; j < nSteps; j++) {
+        steps[j]->print();
+    }
 }

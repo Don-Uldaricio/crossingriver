@@ -35,4 +35,5 @@ class CrossingRiver {
         bool checkRestriction(State *s);
         bool canVisite(State *s, Operation *op);
         bool validOp(int *arr);
+        void printSolutionPath(State *s);
 };

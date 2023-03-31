@@ -85,3 +85,13 @@ void State::printPath() {
         actual->print();
     }
 }
+
+int State::getSteps() {
+    int steps = 0;
+    State *aux = this;
+    while (aux != nullptr) {
+        aux = aux->previous;
+        steps++;
+    }
+    return steps;
+}

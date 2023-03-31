@@ -10,7 +10,7 @@ using namespace std;
 Load::Load(const char *fileName) {
     ifstream *input = new ifstream(fileName); // abrir el archivo
     if (input->is_open()) { // verificar que el archivo se abrio correctamente
-        std::cout << "archivo abierto" << std::endl;
+        std::cout << "SISTEMA LEÍDO CORRECTAMENTE." << std::endl;
 
     } else {
         std::cout << "archivo no encontrado" << std::endl;
