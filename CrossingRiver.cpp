@@ -4,6 +4,7 @@
 
 using namespace std;
 
+/// @brief Constructor of CrossingRiver that initialize all attributes of the problem.
 CrossingRiver::CrossingRiver() {
     this->open = new Heap(2);
     this->closed = new Heap(2);
@@ -27,6 +28,8 @@ CrossingRiver::CrossingRiver() {
     }
 }
 
+/// @brief Solve the Crossing River problem with all restrictions and elements
+/// @return It does not has return but shows if problem has solution and the steps to solve it. It shows a message if the problem has not solution.
 bool CrossingRiver::solve() {
     int *arr = new int[this->nTotal];
     State *actualState;
@@ -36,7 +39,7 @@ bool CrossingRiver::solve() {
         actualState = this->open->pop();
         this->closed->push(actualState);
         if (actualState->isFinal()) {
-            cout << "SOLUCIÓN ENCONTRADA!!" << endl;
+            cout << "SOLUTION FOUND!!" << endl;
             printSolutionPath(actualState);
             return true;
         }
@@ -63,6 +66,10 @@ bool CrossingRiver::solve() {
     return false;
 }
 
+/// @brief Generate all valid Operations of the problem and add them to operations array
+/// @param arr Binary array which represents an operation
+/// @param size Lenght of arr Array
+/// @param index Integer that represent the position of arr Array
 void CrossingRiver::generateOperations(int *arr, int size, int index) {
     if (index == size) {
         if (validOp(arr)) {
@@ -77,6 +84,9 @@ void CrossingRiver::generateOperations(int *arr, int size, int index) {
     generateOperations(arr, size, index+1);
 }
 
+/// @brief Check if State s is in the closed Heap
+/// @param s Class State
+/// @return Return true if State s is in the closed Heap. Return false if is not.
 bool CrossingRiver::isClosed(State *s) {
     for (int i = 0; i < this->closed->size; i++) {
         if (s->decimalLeft == this->closed->data[i]->decimalLeft) {
@@ -86,6 +96,10 @@ bool CrossingRiver::isClosed(State *s) {
     return false;
 }
 
+/// @brief Check if an Operation p can be applied to State s to moving elements to left side
+/// @param s Class State
+/// @param op Class Operation
+/// @return Return true if Operation op can be applied to State s. Return false if is not possible.
 bool CrossingRiver::canMoveToLeft(State *s, Operation *op) {
     for (int i = 0; i < this->nTotal; i++) {
         if (op->movement[i] == 1 && s->right[i] == 0) {
@@ -95,6 +109,10 @@ bool CrossingRiver::canMoveToLeft(State *s, Operation *op) {
     return true;
 }
 
+/// @brief Check if an Operation p can be applied to State s to moving elements to right side
+/// @param s Class State
+/// @param op Class Operation
+/// @return Return true if Operation op can be applied to State s. Return false if not possible.
 bool CrossingRiver::canMoveToRight(State *s, Operation *op) {
     for (int i = 0; i < this->nTotal; i++) {
         if (op->movement[i] == 1 && s->left[i] == 0) {
@@ -104,6 +122,10 @@ bool CrossingRiver::canMoveToRight(State *s, Operation *op) {
     return true;
 }
 
+/// @brief Create a new State by moving elements in right array to left array
+/// @param s Class State
+/// @param op Class Operation
+/// @return Return a Class State if new State satisfy restrictions and it is not in this->closed. Return nullptr if not.
 State *CrossingRiver::moveToLeft(State *s, Operation *op) {
     int *auxLeft = new int[this->nTotal];
     int *auxRight = new int[this->nTotal];
@@ -127,6 +149,10 @@ State *CrossingRiver::moveToLeft(State *s, Operation *op) {
     }
 }
 
+/// @brief Create a new State by moving elements in left array to right array
+/// @param s Class State
+/// @param op Class Operation
+/// @return Return a Class State if new State satisfy restrictions and it is not in this->closed. Return nullptr if not.
 State *CrossingRiver::moveToRight(State *s, Operation *op) {
     int *auxLeft = new int[this->nTotal];
     int *auxRight = new int[this->nTotal];
@@ -150,6 +176,9 @@ State *CrossingRiver::moveToRight(State *s, Operation *op) {
     }
 }
 
+/// @brief Check if a State satisfy problem restrictions
+/// @param s Class State
+/// @return true if State satisfy the problem restrictions, false if not
 bool CrossingRiver::checkRestriction(State *s) {
     for (int i = 0; i < this->nLeftRestrictions; i++) {
         if (s->decimalLeft == this->leftRestrictionsId[i]) {
@@ -166,6 +195,9 @@ bool CrossingRiver::checkRestriction(State *s) {
     return true;
 }
 
+/// @brief Check if array operation is allowed by the problem parameters
+/// @param arr Binary array with large equal to total elements of the problem (drivers + items)
+/// @return Return true if array represent a valid operation, and false if not
 bool CrossingRiver::validOp(int *arr) {
     int total = 0;
     int drivers = 0;
@@ -189,9 +221,11 @@ bool CrossingRiver::validOp(int *arr) {
     return false;
 }
 
+/// @brief Shows in screen the solution path of the problem
+/// @param s Class State that represents the last step of the problem
 void CrossingRiver::printSolutionPath(State *s) {
     int nSteps = s->getSteps();
-    cout << "N° PASOS: " << nSteps - 1 << endl;
+    cout << "N° STEPS: " << nSteps - 1 << endl;
     State *aux = s;
     State *steps[nSteps];
     for (int i = 0; i < nSteps; i++) {

@@ -7,6 +7,8 @@
 
 using namespace std;
 
+/// @brief Constructor of Load that initialize the attributes of Load Class
+/// @param fileName const char that represent the file name
 Load::Load(const char *fileName) {
     ifstream *input = new ifstream(fileName); // abrir el archivo
     if (input->is_open()) { // verificar que el archivo se abrio correctamente
@@ -84,30 +86,39 @@ Load::Load(const char *fileName) {
     input->close();
 }
 
+/// @brief Get the number of drivers
+/// @return Integer that represents the number of drivers
 int Load::getDrivers() {
     return this->driversNum;
 }
 
+/// @brief Get the number of elements of the problem
+/// @return Integer that represent the number of elements
 int Load::getElements() {
     return this->elementsNum;
 }
 
+/// @brief Get the number of total elements of the problem
+/// @return Integer that represent the number of total elements of the problem
 int Load::getTotal() {
     return this->totalNum;
 }
 
+/// @brief Get the boat size of the problem
+/// @return Integer that represent the boat size of the problem
 int Load::getBoatSize() {
     return this->boatSize;
 }
 
+/// @brief Shows the restrictions of the problem in screen
 void Load::printRest() {
-    cout<<"restriccionesIzq:"<<endl;
+    cout<<"Left Restrictions:"<<endl;
     for(int i = 0; i < this->leftRestNum; i++) {
         cout << leftRest[i] << " ";
     }
     cout << endl;
 
-    cout<<"restriccionesDer:"<<endl;
+    cout<<"Right Restrcitions:"<<endl;
     for(int i=0;i<this->rightRestNum;i++){
         cout << rightRest[i] << " ";
     }

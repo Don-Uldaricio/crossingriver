@@ -1,33 +1,50 @@
 #include "Heap.h"
 
+/// @brief Create a Heap with capacity
+/// @param capacity Integer that represents the capacity of the Heap
 Heap::Heap(int capacity) {
     this->capacity = capacity;
     this->data = new State*[capacity];
     size = 0;
 }
 
+/// @brief Destructor of Heap Class
 Heap::~Heap() {
     delete[] data;
 }
 
+/// @brief Swap the i element with the j element
+/// @param i Integer that represents the index of element i in the Heap
+/// @param j Integer that represents the index of element j in the Heap
 void Heap::swap(int i, int j) {
     State *temp = data[i];
     data[i] = data[j];
     data[j] = temp;
 }
 
+/// @brief Get the left child of element i in the Heap
+/// @param i Integer that represent the index of element
+/// @return Return integer of the left child of the i element
 int Heap::left_idx(int i) {
     return 2*i + 1;
 }
 
+/// @brief Get the right child of element i in the Heap
+/// @param i Integer that represent the index of element
+/// @return Return integer of the right child of the i element
 int Heap::right_idx(int i) {
     return 2*i + 2;
 }
 
+/// @brief Get the integer value of the parent of i element
+/// @param i Integer that represents the index of element
+/// @return Returns the integer of the parent of i element
 int Heap::parent_idx(int i) {
     return (i-1)/2;
 }
 
+/// @brief Get the first element of Heap
+/// @return Class State
 State* Heap::pop() {
     if (size == 0) {
         return nullptr;
@@ -39,6 +56,8 @@ State* Heap::pop() {
     return s;
 }
 
+/// @brief Add State s to Heap by distance value of the State s
+/// @param s Class State
 void Heap::push(State *s) {
     if (size == capacity) {
         State **temp= new State*[capacity*2];
@@ -63,6 +82,8 @@ void Heap::push(State *s) {
     }
 }
 
+/// @brief Order the Heap after pop an element
+/// @param i Integer that represents the index of element
 void Heap::heapify(int i) {
     int l = left_idx(i);
     int r = right_idx(i);

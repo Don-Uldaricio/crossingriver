@@ -16,8 +16,6 @@ class State {
         State* previous;
         State(int nElem); // constructor por fecto sin argumentos
         State(int nElem, int *left, int *right, State* previous); // constructores especificos
-        ~State(); // destructor
-        void setDistance(int distance);
         int getDistance();
         void print(); // imprime el estado
         bool isFinal(); // verifica si es el estado final
