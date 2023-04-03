@@ -1,8 +1,8 @@
 #include <iostream>
 #include <cmath>
+#include <string>
 #include "Heap.h"
 #include "Operation.h"
-#include "Load.h"
 
 using namespace std;
 
@@ -21,7 +21,7 @@ class CrossingRiver {
         int *leftRestrictionsId; // Binary Array into decimal number
         int *rightRestrictionsId; // Binary Array into decimal number
 
-        CrossingRiver();
+        CrossingRiver(string fileName);
         bool solve();
         void generateOperations(int *arr, int nElem, int index);
         State *moveToLeft(State *s, Operation *op);

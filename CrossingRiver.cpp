@@ -1,31 +1,90 @@
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
 #include <cmath>
 #include "CrossingRiver.h"
 
 using namespace std;
 
 /// @brief Constructor of CrossingRiver that initialize all attributes of the problem.
-CrossingRiver::CrossingRiver() {
+/// @param fileName String that represents file name of problem
+CrossingRiver::CrossingRiver(string fileName) {
+    ifstream *input = new ifstream(fileName); // abrir el archivo
+    if (input->is_open()) { // verificar que el archivo se abrio correctamente
+        std::cout << "PROBLEM READ SUCCESFULLY." << std::endl;
+
+    } else {
+        std::cout << "FILE NOT FOUND." << std::endl;
+        exit(1);
+    }
+
+    string line; // linea de texto
+    stringstream ss; // stream de caracteres
+
+    // variables a leer del archivo
+    int C,I,b,N; // cantidad de conductores, cantidad de item, capacidad del bote, cantidad total de item mas conductores
+    int leftRestNum, rightRestNum; // cantidad de restricciones de cada lado
+
+    // leer la primera linea
+    getline(*input, line);
+    ss << line; // copiar la linea al stream
+    ss >> C >> I >> b; // leer los datos del stream
+    N = C + I;
+
+    this->nDrivers = C;
+    this->nElem = I;
+    this->boatSize = b;
+    this->nTotal = N;
+
+    // leer la segunda linea
+    getline(*input, line);
+    leftRestNum=atoi(line.c_str()) ; // c_str convierte el string a un arreglo de caracteres
+    this->nLeftRestrictions = leftRestNum;
+    this->leftRestrictionsId = new int[leftRestNum]; // crear el arreglo de restricciones
+    for (int i = 0; i < leftRestNum; i++) {
+        leftRestrictionsId[i] = 0;
+    }
+
+    // leer las restricciones del lado izquierdo
+    for (int i = 0; i < leftRestNum; i++) {
+        getline(*input, line);
+        ss.clear(); // NO OLVIDAR ESTO: limpiar el stream de caracteres, porque ya viene con cosas
+        ss << line; // llenar el stream con linea
+        int a;
+        while (ss >> a) { // mientras no termine esta linea
+            leftRestrictionsId[i] += pow(2, N - a);
+        }
+    }
+    
+    
+    // leer las restricciones del lado derecho
+    getline(*input, line);
+    ss.clear(); // limpiar el stream de caracteres
+    ss << line; // copiar la linea al stream
+    ss >> rightRestNum;
+    this->nRightRestrictions = rightRestNum;
+    this->rightRestrictionsId = new int[rightRestNum]; // crear la matriz de restricciones
+    for (int i = 0; i < rightRestNum; i++) {
+        rightRestrictionsId[i] = 0;
+    }
+
+    for (int i = 0; i < rightRestNum; i++) {
+        getline(*input, line);
+        ss.clear(); // limpiar el stream de caracteres
+        ss << line; // copiar la linea al stream
+        int a;
+        while (ss >> a) { // mientras no termine esta linea
+            rightRestrictionsId[i] += pow(2, N - a);
+        }
+    }
+
+    // cerrar el archivo
+    input->close();
+
     this->open = new Heap(2);
     this->closed = new Heap(2);
-    Load *p = new Load("sistema.txt");
-    this->nDrivers = p->getDrivers();
-    this->nElem = p->getElements();
-    this->nTotal = p->getTotal();
-    this->boatSize = p->getBoatSize();
     this->nOperations = 0;
-    this->nLeftRestrictions = p->leftRestNum;
-    this->nRightRestrictions = p->rightRestNum;
-    this->leftRestrictionsId = new int[this->nLeftRestrictions];
-    this->rightRestrictionsId = new int[this->nRightRestrictions];
-
-    for (int i = 0; i < this->nLeftRestrictions; i++) {
-        this->leftRestrictionsId[i] = p->leftRest[i];
-    }
-
-    for (int i = 0; i < this->nRightRestrictions; i++) {
-        this->rightRestrictionsId[i] = p->rightRest[i];
-    }
 }
 
 /// @brief Solve the Crossing River problem with all restrictions and elements

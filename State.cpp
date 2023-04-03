@@ -75,7 +75,7 @@ void State::print() {
     for (int i = 0; i < leftItems; i++) {
         cout << "  " ;
     }
-    cout << " | ";
+    cout << "| ";
     for (int i = 0; i < this->nElem; i++) {
         if (this->right[i] == 1) {
             cout << i + 1 << " " ;

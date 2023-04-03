@@ -1,13 +1,15 @@
 #include <iostream>
+#include <string>
 #include "CrossingRiver.h"
 
 using namespace std;
 
 int main() {
-    CrossingRiver *cr = new CrossingRiver();
-    //cout << "drivers: " << cr->nDrivers << endl; 
-    //cout << "elementos: " << cr->nElem << endl;
-    //cout << "tamaño bote: " << cr->boatSize << endl;
+    string fileName = "sistema.txt";
+    CrossingRiver *cr = new CrossingRiver(fileName);
+    cout << "drivers: " << cr->nDrivers << endl; 
+    cout << "elementos: " << cr->nElem << endl;
+    cout << "tamaño bote: " << cr->boatSize << endl;
 
     cr->solve();
 }
