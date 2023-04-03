@@ -23,17 +23,14 @@ class CrossingRiver {
 
         CrossingRiver();
         bool solve();
-        void addOpen(State *s);
-        void addClosed(State *s);
         void generateOperations(int *arr, int nElem, int index);
-        State *deleteOpen();
         State *moveToLeft(State *s, Operation *op);
         State *moveToRight(State *s, Operation *op);
         bool isClosed(State *s);
         bool canMoveToLeft(State *s, Operation *op);
         bool canMoveToRight(State *s, Operation *op);
         bool checkRestriction(State *s);
-        bool canVisite(State *s, Operation *op);
         bool validOp(int *arr);
+        bool binarySearch();
         void printSolutionPath(State *s);
 };
