@@ -12,10 +12,10 @@ using namespace std;
 Load::Load(const char *fileName) {
     ifstream *input = new ifstream(fileName); // abrir el archivo
     if (input->is_open()) { // verificar que el archivo se abrio correctamente
-        std::cout << "SISTEMA LEÍDO CORRECTAMENTE." << std::endl;
+        std::cout << "PROBLEM READ SUCCESFULLY." << std::endl;
 
     } else {
-        std::cout << "archivo no encontrado" << std::endl;
+        std::cout << "FILE NOT FOUND." << std::endl;
         exit(1);
     }
 
@@ -25,15 +25,12 @@ Load::Load(const char *fileName) {
     // variables a leer del archivo
     int C,I,b,N; // cantidad de conductores, cantidad de item, capacidad del bote, cantidad total de item mas conductores
     int leftRestNum, rightRestNum; // cantidad de restricciones de cada lado
-    int **restriccionesIzq, **restriccionesDer; // matriz de restricciones de cada lado
-
 
     // leer la primera linea
     getline(*input, line);
     ss << line; // copiar la linea al stream
     ss >> C >> I >> b; // leer los datos del stream
     N = C + I;
-    //cout <<"C:"<< C << " I:" << I << " b:" << b << endl;
 
     this->driversNum = C;
     this->elementsNum = I;

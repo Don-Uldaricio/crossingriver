@@ -63,12 +63,23 @@ int State::getDecimalRight() {
 
 /// @brief Shows the State representation on the screen
 void State::print() {
+    int leftItems = 0;
     for (int i = 0; i < this->nElem; i++) {
-        cout << this->left[i] << " ";
+        if (this->left[i] == 1) {
+            cout << i + 1 << " " ;
+        }
+        else {
+            leftItems++;
+        }
     }
-    cout << " | " ;
+    for (int i = 0; i < leftItems; i++) {
+        cout << "  " ;
+    }
+    cout << " | ";
     for (int i = 0; i < this->nElem; i++) {
-        cout << right[i] << " ";
+        if (this->right[i] == 1) {
+            cout << i + 1 << " " ;
+        }
     }
     cout << endl;
 }
