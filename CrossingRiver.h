@@ -31,6 +31,5 @@ class CrossingRiver {
         bool canMoveToRight(State *s, Operation *op);
         bool checkRestriction(State *s);
         bool validOp(int *arr);
-        bool binarySearch();
         void printSolutionPath(State *s);
 };

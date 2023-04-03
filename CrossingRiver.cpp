@@ -105,14 +105,12 @@ bool CrossingRiver::solve() {
         else {
             for (int i = 0; i < this->nOperations; i++) {
                 if (canMoveToRight(actualState, this->operations[i])) {
-                    //cout << "op" << int(i) << "verificando derecha?" << endl;
                     State *sRight = moveToRight(actualState, this->operations[i]);
                     if (sRight != nullptr) {
                         this->open->push(sRight);
                     }
                 }
                 if (canMoveToLeft(actualState, this->operations[i])) {
-                    //cout << "op"<<int(i)<<"verificando izquierda?" << endl;
                     State *sLeft = moveToLeft(actualState, this->operations[i]);
                     if (sLeft != nullptr) {
                         this->open->push(sLeft);
