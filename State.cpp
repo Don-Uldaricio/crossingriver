@@ -7,8 +7,10 @@ State::State(int nElem) {
     this->decimalLeft = 0;
     this->decimalRight = 0;
     this->nElem = nElem;
+    this->boatSide = 0;
     this->left = (int*) malloc(sizeof(int)*nElem);
     this->right = (int*) malloc(sizeof(int)*nElem);
+    this->previous = nullptr;
     for (int i = 0; i < nElem; i++) {
         left[i] = 1; // todos a la izquierda
         right[i] = 0; // nada a la derecha
@@ -16,8 +18,6 @@ State::State(int nElem) {
         this->decimalLeft += left[i] * pow(2, this->nElem - 1 - i);
         this->decimalRight += right[i] * pow(2, this->nElem - 1 - i);
     }
-    this->boatSide = 0;
-    this->previous = nullptr;
 }
 
 /// @brief Constructor of State Class that initializes the attributes
@@ -25,13 +25,15 @@ State::State(int nElem) {
 /// @param left Binary Array that represents the elements on the left
 /// @param right Binary Array that represents the elements on the right
 /// @param previous Class State that represents the previous State
-State::State(int nElem, int *left, int *right, State* previous) {
+State::State(int nElem, int *left, int *right, int side, State* previous) {
     this->distance = 0;
     this->decimalLeft = 0;
     this->decimalRight = 0;
     this->nElem = nElem;
+    this->boatSide = side;
     this->left = (int*) malloc(sizeof(int)*nElem);
     this->right = (int*) malloc(sizeof(int)*nElem);
+    this->previous = previous;
     for (int i = 0; i < nElem; i++) {
         this->left[i] = left[i];
         this->right[i] = right[i];
@@ -39,8 +41,6 @@ State::State(int nElem, int *left, int *right, State* previous) {
         decimalLeft += left[i] * pow(2, this->nElem - 1 - i);
         decimalRight += right[i] * pow(2, this->nElem - 1 - i);
     }
-    this->boatSide = 0;
-    this->previous = previous;
 }
 
 /// @brief Get the distance value of the State Class
@@ -64,6 +64,14 @@ int State::getDecimalRight() {
 /// @brief Shows the State representation on the screen
 void State::print() {
     int leftItems = 0;
+    
+    if (this->boatSide == 1) {
+        cout << "DER " ;
+    }
+    else {
+        cout << "IZQ " ;
+    }
+
     for (int i = 0; i < this->nElem; i++) {
         if (this->left[i] == 1) {
             cout << i + 1 << " " ;

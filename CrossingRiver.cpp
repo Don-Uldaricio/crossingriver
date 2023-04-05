@@ -11,7 +11,7 @@ using namespace std;
 /// @param fileName String that represents file name of problem
 CrossingRiver::CrossingRiver(string fileName) {
     ifstream *input = new ifstream(fileName); // abrir el archivo
-    if (input->is_open()) { // verificar que el archivo se abrio correctamente
+    if (input->is_open()) { // Verify if file is open correctly
         std::cout << "PROBLEM READ SUCCESFULLY." << std::endl;
 
     } else {
@@ -19,17 +19,17 @@ CrossingRiver::CrossingRiver(string fileName) {
         exit(1);
     }
 
-    string line; // linea de texto
-    stringstream ss; // stream de caracteres
+    string line; // Text line
+    stringstream ss; // Characters stream
 
-    // variables a leer del archivo
-    int C,I,b,N; // cantidad de conductores, cantidad de item, capacidad del bote, cantidad total de item mas conductores
-    int leftRestNum, rightRestNum; // cantidad de restricciones de cada lado
+    // Variables
+    int C,I,b,N; // Amount of drivers, elements, size of boat and amoun total elements
+    int leftRestNum, rightRestNum; // Amount of restrictions by side
 
     // leer la primera linea
     getline(*input, line);
-    ss << line; // copiar la linea al stream
-    ss >> C >> I >> b; // leer los datos del stream
+    ss << line; // Copy line to stream
+    ss >> C >> I >> b; // Read stream data
     N = C + I;
 
     this->nDrivers = C;
@@ -37,49 +37,49 @@ CrossingRiver::CrossingRiver(string fileName) {
     this->boatSize = b;
     this->nTotal = N;
 
-    // leer la segunda linea
+    // Read second line
     getline(*input, line);
-    leftRestNum=atoi(line.c_str()) ; // c_str convierte el string a un arreglo de caracteres
+    leftRestNum=atoi(line.c_str()) ; // c_str trasnform string to integer
     this->nLeftRestrictions = leftRestNum;
-    this->leftRestrictionsId = new int[leftRestNum]; // crear el arreglo de restricciones
+    this->leftRestrictionsId = new int[leftRestNum]; // Create restrictions array
     for (int i = 0; i < leftRestNum; i++) {
         leftRestrictionsId[i] = 0;
     }
 
-    // leer las restricciones del lado izquierdo
+    // Read left restrictions
     for (int i = 0; i < leftRestNum; i++) {
         getline(*input, line);
-        ss.clear(); // NO OLVIDAR ESTO: limpiar el stream de caracteres, porque ya viene con cosas
-        ss << line; // llenar el stream con linea
+        ss.clear(); // DONT FORGET THIS, clean the stream
+        ss << line; // fill the stream
         int a;
-        while (ss >> a) { // mientras no termine esta linea
+        while (ss >> a) { // while this line is not done
             leftRestrictionsId[i] += pow(2, N - a);
         }
     }
     
     
-    // leer las restricciones del lado derecho
+    // Read right restrictions
     getline(*input, line);
-    ss.clear(); // limpiar el stream de caracteres
-    ss << line; // copiar la linea al stream
+    ss.clear(); // clean stream
+    ss << line; // Copy text line to stream
     ss >> rightRestNum;
     this->nRightRestrictions = rightRestNum;
-    this->rightRestrictionsId = new int[rightRestNum]; // crear la matriz de restricciones
+    this->rightRestrictionsId = new int[rightRestNum]; // Create restrictions matrix
     for (int i = 0; i < rightRestNum; i++) {
         rightRestrictionsId[i] = 0;
     }
 
     for (int i = 0; i < rightRestNum; i++) {
         getline(*input, line);
-        ss.clear(); // limpiar el stream de caracteres
-        ss << line; // copiar la linea al stream
+        ss.clear(); // clean stream
+        ss << line; // Copy line to stream
         int a;
-        while (ss >> a) { // mientras no termine esta linea
+        while (ss >> a) { // while this line is not done
             rightRestrictionsId[i] += pow(2, N - a);
         }
     }
 
-    // cerrar el archivo
+    // close file
     input->close();
 
     this->open = new Heap(2);
@@ -106,23 +106,29 @@ bool CrossingRiver::solve() {
             return true;
         }
         else {
-            for (int i = 0; i < this->nOperations; i++) {
-                if (canMoveToRight(actualState, this->operations[i])) {
-                    State *sRight = moveToRight(actualState, this->operations[i]);
-                    if (sRight != nullptr) {
-                        this->open->push(sRight);
+            if (actualState->boatSide == 0) {
+                for (int i = 0; i < this->nOperations; i++) {
+                    if (canMoveToRight(actualState, this->operations[i])) {
+                        State *sRight = moveToRight(actualState, this->operations[i]);
+                        if (sRight != nullptr) {
+                            this->open->push(sRight);
+                        }
                     }
                 }
-                if (canMoveToLeft(actualState, this->operations[i])) {
-                    State *sLeft = moveToLeft(actualState, this->operations[i]);
-                    if (sLeft != nullptr) {
-                        this->open->push(sLeft);
+            }
+            else {
+                for (int i = 0; i < this->nOperations; i++) {
+                    if (canMoveToLeft(actualState, this->operations[i])) {
+                        State *sLeft = moveToLeft(actualState, this->operations[i]);
+                        if (sLeft != nullptr) {
+                            this->open->push(sLeft);
+                        }
                     }
                 }
             }
         }
     }
-    cout << "Solución NO ENCONTRADA." << endl;
+    cout << "SOLUTION NOT FOUND." << endl;
     return false;
 }
 
@@ -146,7 +152,6 @@ void CrossingRiver::generateOperations(int *arr, int size, int index, int b, int
             generateOperations(arr, size, index + 1, b, ones);
         }
     }
-
     else {
         if (index == size) {
             if (validOp(arr)) {
@@ -167,7 +172,8 @@ void CrossingRiver::generateOperations(int *arr, int size, int index, int b, int
 /// @return Return true if State s is in the closed Heap. Return false if is not.
 bool CrossingRiver::isClosed(State *s) {
     for (int i = 0; i < this->closed->size; i++) {
-        if (s->decimalLeft == this->closed->data[i]->decimalLeft) {
+        if (s->decimalLeft == this->closed->data[i]->decimalLeft 
+            && s->boatSide == this->closed->data[i]->boatSide) {
             return true;
         }
     }
@@ -218,7 +224,7 @@ State *CrossingRiver::moveToLeft(State *s, Operation *op) {
             auxRight[i] = s->right[i];
         }
     }
-    auxState = new State(this->nTotal, auxLeft, auxRight, s);
+    auxState = new State(this->nTotal, auxLeft, auxRight, 0, s);
     if ((!isClosed(auxState)) && checkRestriction(auxState)) {
         return auxState;
     }
@@ -245,7 +251,7 @@ State *CrossingRiver::moveToRight(State *s, Operation *op) {
             auxRight[i] = s->right[i];
         }
     }
-    auxState = new State(this->nTotal, auxLeft, auxRight, s);
+    auxState = new State(this->nTotal, auxLeft, auxRight, 1, s);
     if ((!isClosed(auxState)) && checkRestriction(auxState)) {
         return auxState;
     }
@@ -263,13 +269,11 @@ bool CrossingRiver::checkRestriction(State *s) {
             return false;
         }
     }
-    
     for (int i = 0; i < this->nRightRestrictions; i++) {
         if (s->decimalRight == this->rightRestrictionsId[i]) {
             return false;
         }
     }
-    
     return true;
 }
 
@@ -279,20 +283,17 @@ bool CrossingRiver::checkRestriction(State *s) {
 bool CrossingRiver::validOp(int *arr) {
     int total = 0;
     int drivers = 0;
-
     for (int i = 0; i < this->nDrivers; i++) {
         if (arr[i] == 1) {
             drivers++;
             total++;
         }
     }
-
     for (int i = this->nDrivers; i < this->nTotal; i++) {
         if (arr[i] == 1) {
             total++;
         }
     }
-
     if (drivers >= 1 && total <= this->boatSize) {
         return true;
     }

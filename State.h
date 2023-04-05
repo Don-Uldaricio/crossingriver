@@ -15,7 +15,7 @@ class State {
         int decimalRight; // Valor decimal del arreglo binario right
         State* previous;
         State(int nElem); // constructor por fecto sin argumentos
-        State(int nElem, int *left, int *right, State* previous); // constructores especificos
+        State(int nElem, int *left, int *right, int side, State* previous); // constructores especificos
         int getDistance();
         void print(); // imprime el estado
         bool isFinal(); // verifica si es el estado final
