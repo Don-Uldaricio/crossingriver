@@ -85,6 +85,9 @@ CrossingRiver::CrossingRiver(string fileName) {
     this->open = new Heap(2);
     this->closed = new Heap(2);
     this->nOperations = 0;
+
+    int nTotalComb = pow(2,this->nTotal);
+    this->operations = new Operation *[nTotalComb];
 }
 
 /// @brief Solve the Crossing River problem with all restrictions and elements
@@ -92,7 +95,7 @@ CrossingRiver::CrossingRiver(string fileName) {
 bool CrossingRiver::solve() {
     int *arr = new int[this->nTotal];
     State *actualState;
-    generateOperations(arr, this->nTotal, 0);
+    generateOperations(arr, this->nTotal, 0, this->boatSize, 0);
     open->push(new State(this->nTotal));
     while (open->size != 0) {
         actualState = this->open->pop();
@@ -127,18 +130,36 @@ bool CrossingRiver::solve() {
 /// @param arr Binary array which represents an operation
 /// @param size Lenght of arr Array
 /// @param index Integer that represent the position of arr Array
-void CrossingRiver::generateOperations(int *arr, int size, int index) {
-    if (index == size) {
-        if (validOp(arr)) {
-            this->operations[this->nOperations] = new Operation(arr, size);
-            this->nOperations++;
+/// @param b Integer that represents the boat size
+/// @param ones Integer that represents the amount of ones in binary array "arr"
+void CrossingRiver::generateOperations(int *arr, int size, int index, int b, int ones) {
+    if (ones == b) {
+        if (index == size) {
+            if (validOp(arr)) {
+                this->operations[this->nOperations] = new Operation(arr, size);
+                this->nOperations++;
+            }
+            return;
         }
-        return;
+        else {
+            arr[index] = 0;
+            generateOperations(arr, size, index + 1, b, ones);
+        }
     }
-    arr[index] = 0;
-    generateOperations(arr, size, index+1);
-    arr[index] = 1;
-    generateOperations(arr, size, index+1);
+
+    else {
+        if (index == size) {
+            if (validOp(arr)) {
+                this->operations[this->nOperations] = new Operation(arr, size);
+                this->nOperations++;
+            }
+            return;
+        }
+        arr[index] = 0;
+        generateOperations(arr, size, index + 1, b, ones);
+        arr[index] = 1;
+        generateOperations(arr, size, index + 1, b, ones + 1);
+    }
 }
 
 /// @brief Check if State s is in the closed Heap

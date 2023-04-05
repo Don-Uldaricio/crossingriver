@@ -10,7 +10,7 @@ class CrossingRiver {
     public:
         Heap *open;
         Heap *closed;
-        Operation *operations[1000];
+        Operation **operations;
         int nElem;
         int nDrivers;
         int nTotal;
@@ -23,7 +23,7 @@ class CrossingRiver {
 
         CrossingRiver(string fileName);
         bool solve();
-        void generateOperations(int *arr, int nElem, int index);
+        void generateOperations(int *arr, int nElem, int index, int b, int ones);
         State *moveToLeft(State *s, Operation *op);
         State *moveToRight(State *s, Operation *op);
         bool isClosed(State *s);
