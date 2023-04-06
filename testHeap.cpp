@@ -10,8 +10,8 @@ int main() {
 
     int left[4] = {1, 1, 1, 1};
     int right[4] = {0, 0, 0, 0};
-    State *s = new State(nElem, left, right, nullptr); // new llama al constructor y entrega un puntero
-    State *s1 = new State(nElem, left, right, s);
+    State *s = new State(nElem, left, right, 0, nullptr); // new llama al constructor y entrega un puntero
+    State *s1 = new State(nElem, left, right, 1, s);
 
     //s1->printPath();   
     cout << "tamaño heap: " << hp->size << endl;

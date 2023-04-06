@@ -6,6 +6,13 @@
 
 using namespace std;
 
+/*
+    * CrossingRiver class:
+    * This class is used to solve the crossing river problem, by reading the file and
+    * initilizes the important values.
+    * The problem is represented by a Heap with open/closed States and all the attributes
+    * like amount of drivers, elements, and boat size, among others.
+*/
 class CrossingRiver {
     public:
         Heap *open;
@@ -21,7 +28,10 @@ class CrossingRiver {
         int *leftRestrictionsId; // Binary Array into decimal number
         int *rightRestrictionsId; // Binary Array into decimal number
 
+        // Constructor
         CrossingRiver(string fileName);
+
+        // Other methods
         bool solve();
         void generateOperations(int *arr, int nElem, int index, int b, int ones);
         State *moveToLeft(State *s, Operation *op);

@@ -13,10 +13,10 @@ int main() {
     cout << "Valor decimal left de s: " << s->getDecimalLeft() << endl;
     right[0] = 1;
     right[1] = 1;
-    State *s1 = new State(nElem, left, right, s);
+    State *s1 = new State(nElem, left, right, 1, s);
     cout << "Valor decimal left de s1: " << s1->getDecimalLeft() << endl;
 
-    cout << "Se imprimen los nodos s y s1:" << endl;
+    cout << "Se imprimen los estados s y s1:" << endl;
     s->print();
     s1->print(); 
 
