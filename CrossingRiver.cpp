@@ -12,7 +12,7 @@ using namespace std;
 CrossingRiver::CrossingRiver(string fileName) {
     ifstream *input = new ifstream(fileName); // abrir el archivo
     if (input->is_open()) { // Verify if file is open correctly
-        std::cout << "PROBLEM READ SUCCESFULLY." << std::endl;
+        //std::cout << "PROBLEM READ SUCCESFULLY." << std::endl;
 
     } else {
         std::cout << "FILE NOT FOUND." << std::endl;
@@ -101,8 +101,8 @@ bool CrossingRiver::solve() {
         actualState = this->open->pop();
         this->closed->push(actualState);
         if (actualState->isFinal()) {
-            cout << "SOLUTION FOUND!!" << endl;
-            printSolutionPath(actualState);
+            //cout << "SOLUTION FOUND!!" << endl;
+            //printSolutionPath(actualState);
             return true;
         }
         else {
